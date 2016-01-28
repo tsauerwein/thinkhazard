@@ -23,7 +23,6 @@ import datetime
 from sqlalchemy import (
     Boolean,
     Column,
-    Date,
     DateTime,
     ForeignKey,
     inspect,
@@ -305,10 +304,10 @@ class HazardSet(Base):
     local = Column(Boolean)
     # date the data was last updated (defaults to created):
     # this value comes from the linked layers
-    data_lastupdated_date = Column(Date, nullable=False)
+    data_lastupdated_date = Column(DateTime)
     # date the metadata was last updated (defaults to created):
     # this value comes from the linked layers
-    metadata_lastupdated_date = Column(Date, nullable=False)
+    metadata_lastupdated_date = Column(DateTime)
     # quality rating for the hazard calculation method
     # ranges from 0 (bad) to 10 (excellent).
     # this value comes from the linked layers
@@ -364,9 +363,9 @@ class Layer(Base):
     hazardunit = Column(String)
 
     # date the data was last updated (defaults to created):
-    data_lastupdated_date = Column(Date, nullable=False)
+    data_lastupdated_date = Column(DateTime, nullable=False)
     # date the metadata was last updated (defaults to created):
-    metadata_lastupdated_date = Column(Date, nullable=False)
+    metadata_lastupdated_date = Column(DateTime, nullable=False)
 
     # the data can be downloaded at this URL:
     download_url = Column(String, nullable=False)
