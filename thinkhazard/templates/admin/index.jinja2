@@ -1,6 +1,11 @@
-{% extends "admin.jinja2" %}
+{% extends "base.jinja2" %}
 
-{% block admin_content %}
+{% from 'common.jinja2' import navbar %}
+
+{% block name %}admin{% endblock %}
+
+{% block content %}
+  {{ navbar(request) }}
   <div class="admin-index container">
     <h3>Hazard categories</h3>
     <table class="table">

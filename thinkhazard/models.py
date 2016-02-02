@@ -163,6 +163,7 @@ class HazardCategoryTechnicalRecommendationAssociation(Base):
     order = Column(Integer, nullable=False)
 
     hazardcategory = relationship('HazardCategory')
+    technicalrecommandation = relationship('TechnicalRecommendation')
 
 
 class HazardCategoryFurtherResourceAssociation(Base):
