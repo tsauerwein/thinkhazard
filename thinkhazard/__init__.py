@@ -46,6 +46,8 @@ def main(global_config, **settings):
     config.add_route('admin_index', '/admin')
     config.add_route('admin_hazardcategory',
                      '/admin/{hazard_type}/{hazard_level}')
+    config.add_route('admin_technical_rec', '/admin/technical_rec')
+    config.add_route('admin_technical_rec_edit', '/admin/technical_rec/{id}')
 
     config.add_renderer('geojson', GeoJSON())
 

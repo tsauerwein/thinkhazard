@@ -10,6 +10,7 @@ from ..models import (
     HazardCategoryTechnicalRecommendationAssociation as HcTr,
     HazardLevel,
     HazardType,
+    TechnicalRecommendation,
     )
 
 
@@ -73,3 +74,18 @@ def hazardcategory(request):
         return HTTPFound(request.route_url('admin_hazardcategory',
                                            hazard_type=hazard_type,
                                            hazard_level=hazard_level))
+
+@view_config(route_name='admin_technical_rec',
+             renderer='templates/admin/technical_rec.jinja2')
+def technical_rec(request):
+    technical_recs = DBSession.query(TechnicalRecommendation) \
+        .all()
+    for technical_rec in technical_recs:
+        technical_rec.hazardcategories = \
+            ', '.join(['{} - {}'.format(association.hazardcategory.hazardtype.mnemonic,
+                                        association.hazardcategory.hazardlevel.mnemonic) \
+                       for association in technical_rec.hazardcategory_associations])
+    return {
+        'technical_recs': technical_recs,
+        'test': [ str(x) for x in xrange(10)],
+        }
