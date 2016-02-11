@@ -28,7 +28,7 @@ from ..models import (
     Layer,
     )
 
-from . import settings, layer_path
+from . import load_settings, layer_path
 
 
 logger = logging.getLogger(__name__)
@@ -40,9 +40,6 @@ ch.setFormatter(formatter)
 logger.addHandler(ch)
 
 logger.setLevel(logging.DEBUG)
-
-
-geonode = settings['geonode']
 
 
 def clearall():
@@ -97,6 +94,8 @@ def download_layer(geonode_id):
     if not os.path.exists(dir_path):
         os.makedirs(dir_path)
 
+    settings = load_settings()
+    geonode = settings['geonode']
     if os.path.isfile(layer_path(layer)):
         layer.downloaded = True
     else:

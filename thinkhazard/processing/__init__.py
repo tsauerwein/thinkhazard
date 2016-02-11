@@ -38,10 +38,9 @@ def load_settings():
 
     return settings
 
-settings = load_settings()
-
 
 def layer_path(layer):
+    settings = load_settings()
     return os.path.join(settings['data_path'],
                         'hazardsets',
                         layer.hazardset_id,

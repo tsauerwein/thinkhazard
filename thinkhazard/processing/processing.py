@@ -40,7 +40,7 @@ from ..models import (
     Output,
     )
 
-from . import settings, layer_path
+from . import load_settings, layer_path
 
 
 logger = logging.getLogger(__name__)
@@ -105,6 +105,7 @@ def process_hazardset(hazardset_id, force=False):
         .delete()
     DBSession.flush()
 
+    settings = load_settings()
     type_settings = settings['hazard_types'][hazardset.hazardtype.mnemonic]
 
     with rasterio.drivers():
@@ -165,6 +166,7 @@ def process_hazardset(hazardset_id, force=False):
 
 
 def create_outputs(hazardset, layers, readers):
+    settings = load_settings()
     type_settings = settings['hazard_types'][hazardset.hazardtype.mnemonic]
     adminlevel_reg = AdminLevelType.get(u'REG')
 
@@ -398,6 +400,7 @@ def polygon_from_boundingbox(boundingbox):
 
 
 def get_threshold(hazardtype, local, level, unit):
+    settings = load_settings()
     mysettings = settings['hazard_types'][hazardtype]['thresholds']
     while type(mysettings) is dict:
         if 'local' in mysettings.keys():

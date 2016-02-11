@@ -34,7 +34,7 @@ from ..models import (
     Output,
     )
 
-from . import settings
+from . import load_settings
 
 
 logger = logging.getLogger(__name__)
@@ -46,9 +46,6 @@ ch.setFormatter(formatter)
 logger.addHandler(ch)
 
 logger.setLevel(logging.DEBUG)
-
-
-geonode = settings['geonode']
 
 
 def clearall():
@@ -75,6 +72,8 @@ def harvest(hazard_type=None, force=False, dry_run=False):
     if hazard_type is not None:
         params['hazard_type__in'] = hazard_type
 
+    settings = load_settings()
+    geonode = settings['geonode']
     hazard_type_url = urlunsplit((geonode['scheme'],
                                   geonode['netloc'],
                                   'api/layers/',
@@ -119,6 +118,7 @@ def harvest_layer(object, dry_run=False):
                        .format(title, hazard_type))
         return False
 
+    settings = load_settings()
     type_settings = settings['hazard_types'][hazardtype.mnemonic]
     preprocessed = 'values' in type_settings
 
@@ -258,6 +258,7 @@ def harvest_layer(object, dry_run=False):
 
 
 def hazardtype_from_geonode(geonode_name):
+    settings = load_settings()
     for mnemonic, type_settings in settings['hazard_types'].iteritems():
         if type_settings['hazard_type'] == geonode_name:
             return HazardType.get(unicode(mnemonic))

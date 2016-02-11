@@ -27,7 +27,7 @@ from ..models import (
     Layer,
     )
 
-from ..processing import settings
+from . import load_settings
 
 
 logger = logging.getLogger(__name__)
@@ -92,6 +92,7 @@ def complete_hazardset(hazardset_id, dry_run=False):
                         .format(hazardset_id))
 
     hazardtype = hazardset.hazardtype
+    settings = load_settings()
     type_settings = settings['hazard_types'][hazardtype.mnemonic]
     preprocessed = 'values' in type_settings
 

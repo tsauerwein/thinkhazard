@@ -22,7 +22,7 @@ import argparse
 from sqlalchemy import engine_from_config
 
 from ..models import DBSession
-from ..processing import settings
+from ..processing import load_settings
 from ..processing.completing import complete
 
 
@@ -39,6 +39,7 @@ def main(argv=sys.argv):
         help='Perform a trial run that does not commit changes')
     args = parser.parse_args(argv[1:])
 
+    settings = load_settings()
     engine = engine_from_config(settings, 'sqlalchemy.')
     DBSession.configure(bind=engine)
 
