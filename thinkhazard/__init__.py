@@ -42,6 +42,7 @@ def main(global_config, **settings):
     config.add_route('report_overview_slash', '/report/{divisioncode:\d+}/')
     config.add_route('report_overview_json', '/report/{divisioncode:\d+}.json')
     config.add_route('administrativedivision', '/administrativedivision')
+    config.add_route('hazardsets', '/hazardsets')
 
     config.add_renderer('geojson', GeoJSON())
 

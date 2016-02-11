@@ -32,9 +32,11 @@ from geoalchemy2.shape import to_shape
 from ..models import (
     DBSession,
     AdministrativeDivision,
+    AdminLevelType,
     HazardLevel,
     HazardCategory,
     HazardType,
+    HazardSet,
     ClimateChangeRecommendation,
     TechnicalRecommendation,
     FurtherResource,
@@ -253,3 +255,23 @@ def report_json(request):
         }
     } for division, geom_simplified, hazardlevel_mnemonic,
           hazardlevel_title in divisions]
+
+
+from sqlalchemy.orm import joinedload
+
+@view_config(route_name='hazardsets', renderer='templates/hazardset.jinja2')
+def hazardsets(request):
+    hazardsets = []
+
+    query = DBSession.query(HazardCategoryAdministrativeDivisionAssociation) \
+            .join(AdministrativeDivision) \
+            .join(HazardCategory) \
+            .join(HazardType) \
+            .filter(HazardType.id == 2) \
+            .join(AdminLevelType) \
+            .filter(AdminLevelType.id == 3) \
+            .limit(1000)
+
+    return {
+        'result': query
+    }
